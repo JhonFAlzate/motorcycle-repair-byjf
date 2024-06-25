@@ -28,7 +28,8 @@ export class UserService {
             return await users.save();
            
         } catch (error: any) {
-            throw CustomError.internalServer("Something went very wrong! 🧨☠️ OJO ES ESTE ")
+            
+            throw CustomError.internalServer("Something went very wrong! 🧨☠️")
        
          } 
     }
