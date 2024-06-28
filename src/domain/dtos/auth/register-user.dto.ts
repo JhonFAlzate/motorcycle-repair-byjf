@@ -13,7 +13,7 @@ export class RegisterUserDto {
         public readonly password: string,
         public readonly role: string | Role
       
-    ){}
+    ){} 
 
     static createUser ( object: {[key: string]: string | Role}): [string?, RegisterUserDto?]{
         const {name, email, password, role} = object

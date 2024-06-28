@@ -8,9 +8,6 @@ enum Status {
     DISABLED = 'DISABLED'
 }
 
-
-
-
 export class UserService {
 
     constructor(){}

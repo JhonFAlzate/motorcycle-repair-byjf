@@ -60,4 +60,5 @@ export class Users extends BaseEntity {
 
     @UpdateDateColumn()
     update_at: Date;
+    
 }

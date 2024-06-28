@@ -4,6 +4,7 @@
 import { Request, Response } from "express";
 import { CustomError } from "../../domain";
 import { AuthService } from "../services/auth.service";
+import { RegisterUserDto } from "../../domain/dtos/auth/register-user.dto";
 
 
 export class AuthController {
@@ -22,8 +23,17 @@ export class AuthController {
     }
 
     register = (req: Request, res: Response) => {
-        //implementar el metodo
-        return res.status(200).json({ message: 'Hello World'})
+
+        const [ error, registerUserDto] = RegisterUserDto.createUser(req.body);
+
+        if (error) return res.status( 422 ).json({ message: error });
+
+        this.authService.register(registerUserDto!)
+
+             .then((data => res.status(200).json(data)))
+             .catch(error => this.handleError(error, res))
+
+     
     }
 
     login = (req: Request, res: Response) => {
