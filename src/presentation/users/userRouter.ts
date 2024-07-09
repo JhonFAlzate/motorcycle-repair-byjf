@@ -1,8 +1,13 @@
 import {Router} from 'express';
 import { UserController } from './userController';
 import { UserService } from '../services/user.service';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
-
+enum Role {
+   
+    CLIENT = 'CLIENT',
+    EMPLOYEE = 'EMPLOYEE'
+}
 
 export class UserRoutes {
 
@@ -11,6 +16,9 @@ export class UserRoutes {
         
         const userService = new UserService()
         const controller = new UserController(userService)
+
+        router.use(AuthMiddleware.protect)  // aquí estoy protegiendo todas las rutas de abajo.
+        router.use(AuthMiddleware.restrictTo(Role.EMPLOYEE))
 
         router.get('/', controller.getUser)
         router.post('/', controller.createUser)

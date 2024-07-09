@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { CustomError } from "../../domain";
 import { AuthService } from "../services/auth.service";
 import { RegisterUserDto } from "../../domain/dtos/auth/register-user.dto";
+import { LoginUserDTO } from "../../domain/dtos/auth/login-user.dto";
 
 
 export class AuthController {
@@ -36,8 +37,36 @@ export class AuthController {
      
     }
 
-    login = (req: Request, res: Response) => {
-        //implementar el metodo
-        return res.status(200).json({ message: 'Hello World'})
+    login = async (req: Request, res: Response) => {
+        const [error, loginUserDto] = LoginUserDTO.create(req.body);
+
+        if (error) return res.status(422).json({message: error});
+
+        this.authService.login(loginUserDto!)
+            .then(data => res.status(200).json(data))
+            .catch(error => this.handleError(error, res))
+            
+
+       
+    }
+
+
+    
+    validateEmail = (req: Request, res: Response) => {
+        const {token} = req.params
+
+        this.authService.validateEmail( token )
+            .then( () => res.json('Email was validate propertly'))
+            .catch(error => this.handleError(error, res))
+            
+    }
+
+    getProfile = (req: Request, res: Response) => {
+        const {id} = req.body.sessionUser;
+        
+        this.authService.getProfile(+id)
+            .then(data => res.status(200).json(data))
+            .catch(error => this.handleError(error, res))
+        
     }
 }

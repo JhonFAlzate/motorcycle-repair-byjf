@@ -1,8 +1,13 @@
 import {Router} from 'express';
 import { RepairsController } from './repairsController';
 import { RepairsService } from '../services/repairs.service';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
-
+enum Role {
+   
+    CLIENT = 'CLIENT',
+    EMPLOYEE = 'EMPLOYEE'
+}
 
 export class RepairsRoutes {
 
@@ -12,6 +17,10 @@ export class RepairsRoutes {
         const repairsService = new RepairsService() 
         const controller = new RepairsController(repairsService)
 
+        router.use(AuthMiddleware.protect)
+        router.use(AuthMiddleware.restrictTo(Role.EMPLOYEE))
+
+        // router.get('/', controller.findAllRepairs)
         router.get('/', controller.findAllRepairs)
         router.post('/', controller.createRepair)
         router.get('/:id', controller.findOneRepair)

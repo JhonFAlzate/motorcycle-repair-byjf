@@ -1,4 +1,7 @@
 import express, {Router} from 'express'
+import cors from 'cors'
+import helmet from 'helmet';
+import hpp from 'hpp';
 
 interface Options {
     port: number;
@@ -19,8 +22,12 @@ export class Server {
     }
 
     async start(){
+        this.app.use(helmet);
+        this.app.use(hpp);
+
         this.app.use( express.json())
         this.app.use( express.urlencoded({extended: true}));
+        this.app.use(cors())  // Esto es para evitar los problemas de cors, y se debe instalar npm i cors y luego el typescrip de cors
 
         this.app.use(this.routes)
 

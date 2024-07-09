@@ -15,8 +15,8 @@ export class RegisterUserDto {
       
     ){} 
 
-    static createUser ( object: {[key: string]: string | Role}): [string?, RegisterUserDto?]{
-        const {name, email, password, role} = object
+    static createUser ( object: {[key: string]: any}): [string?, RegisterUserDto?]{
+        const {name, email, password, role} = object;
 
         if (!name) return ['Missing name']
         if (!email) return ['Missing email']

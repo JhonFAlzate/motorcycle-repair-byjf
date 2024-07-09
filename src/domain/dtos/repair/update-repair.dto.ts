@@ -14,7 +14,7 @@ export class UpdateRepairDto {
          
     ){}
 
-    static updateRepair( object: {[key: string]: Status}): [string?, UpdateRepairDto?]{
+    static updateRepair( object: {[key: string]: any}): [string?, UpdateRepairDto?]{
 
         const {status} = object;
 

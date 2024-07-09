@@ -1,4 +1,5 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { bcryptAdapter } from "../../../config";
 
 enum Role {
    
@@ -47,6 +48,12 @@ export class Users extends BaseEntity {
     })
     role: string | Role;
 
+    @Column({ 
+        type: 'boolean',
+        default: false
+    })
+    emailValidated: boolean;
+
     @Column({
         type: "enum",
         nullable: false,
@@ -60,5 +67,10 @@ export class Users extends BaseEntity {
 
     @UpdateDateColumn()
     update_at: Date;
+
+    // @BeforeInsert()  // +Esta es Otra forma de encriptar el password  
+    // encryptPassword(){
+    //  this.password = bcryptAdapter.hash(this.password)
+    // }
     
 }
