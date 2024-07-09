@@ -22,6 +22,22 @@ export class Repairs extends BaseEntity {
     date: Date;
 
     @Column({
+        type: 'varchar',
+        nullable:false,
+        length: 50,
+        unique: true
+    })
+    motorsNumber: string;
+
+    
+    @Column({
+        type: 'varchar',
+        nullable:false,
+        length: 200
+    })
+    description: string;
+
+    @Column({
         type: 'enum',
         nullable: false,
         enum: Status,
