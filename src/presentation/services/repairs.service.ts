@@ -10,18 +10,15 @@ enum Status {
 }
 
 export class RepairsService {
-  constructor(
-    public readonly userService: UserService
-  ) {}
+  constructor(public readonly userService: UserService) {}
 
   async createRepairs(repairData: CreateRepairDto) {
     const repair = new Repairs();
-    // const userService = new Users
+    
 
-    await this.userService.findUserByD(repairData.userId)
+    await this.userService.findUserByD(repairData.userId);
 
     // if(!validateUser) throw CustomError.internalServer('CLIENTE NO EXISTE')
-
 
     repair.date = repairData.date;
     repair.status = Status.PENDING;
@@ -30,36 +27,31 @@ export class RepairsService {
     repair.description = repairData.description;
 
     return await Repairs.findOne({
-        where:{
-            motorsNumber: repair.motorsNumber
-        }
+      where: {
+        motorsNumber: repair.motorsNumber,
+      },
     })
 
-    .then(motorN => {
+      .then((motorN) => {
         if (motorN) {
-            return Promise.reject(CustomError.badRequest("Mtor number already existing.de aqui"));
-        };
+          return Promise.reject(
+            CustomError.badRequest("Motor number already existing")
+          );
+        }
         return repair.save();
-     })
-     .then(motorN => motorN)
-    // 
-    .catch(error => {
+      })
+      .then((motorN) => motorN)
+      //
+      .catch((error) => {
         return Promise.reject(error);
-});
-     
-     
-
+      });
 
     // try {
     //   return await repair.save();
     // } catch (error: any) {
-    //   throw CustomError.internalServer("Something went very wrong! 🧨☠️ ojo");
+    //   throw CustomError.internalServer("Something went very wrong! 🧨☠️ ");
     // }
   }
-
-
-
-
 
   async findAllRepairs() {
     try {
