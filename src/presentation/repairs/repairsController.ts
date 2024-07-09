@@ -12,7 +12,7 @@ export class RepairsController {
      }
 
      private handleError = (error: unknown, res: Response) => {
-        console.log(error)
+        // console.log(error)
         if( error instanceof CustomError){
             return res.status(error.statusCode).json({message: error.message})
         }
@@ -32,9 +32,9 @@ export class RepairsController {
 
         .then((repair) => res.status(201).json(repair))
         .catch((error: unknown) => {
-            console.log(error)
+            // console.log(error)
 
-            if( error instanceof CustomError) res.status(error.statusCode).json({message: error.message})
+            // if( error instanceof CustomError) res.status(error.statusCode).json({message: error.message})
             
             return this.handleError(error, res)
         })

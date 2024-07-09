@@ -2,6 +2,7 @@ import {Router} from 'express';
 import { RepairsController } from './repairsController';
 import { RepairsService } from '../services/repairs.service';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { UserService } from '../services/user.service';
 
 enum Role {
    
@@ -11,10 +12,13 @@ enum Role {
 
 export class RepairsRoutes {
 
+
+
     static get routes(): Router {
         const router = Router();
+        const userServiceA = new UserService
+        const repairsService = new RepairsService(userServiceA) 
         
-        const repairsService = new RepairsService() 
         const controller = new RepairsController(repairsService)
 
         router.use(AuthMiddleware.protect)

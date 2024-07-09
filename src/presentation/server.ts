@@ -22,14 +22,15 @@ export class Server {
     }
 
     async start(){
-        this.app.use(helmet);
-        this.app.use(hpp);
-
+        
         this.app.use( express.json())
         this.app.use( express.urlencoded({extended: true}));
         this.app.use(cors())  // Esto es para evitar los problemas de cors, y se debe instalar npm i cors y luego el typescrip de cors
-
+        
         this.app.use(this.routes)
+        
+        this.app.use(helmet());
+        this.app.use(hpp());
 
         this.app.listen(this.port, () => {
             console.log(`Server is running on port ${this.port} 😎 👌`)
