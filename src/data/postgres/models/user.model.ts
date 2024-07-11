@@ -4,10 +4,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { bcryptAdapter } from "../../../config";
+import { Repairs } from "./repairs.model";
 
 enum Role {
   CLIENT = "CLIENT",
@@ -67,6 +69,8 @@ export class Users extends BaseEntity {
     default: Status.ACTIVE,
   })
   status: Status;
+  @OneToMany(() => Repairs, (repair) => repair.user)
+  repairs: Repairs[];
 
   @CreateDateColumn()
   create_at: Date;

@@ -33,7 +33,7 @@ export class AuthService {
     user.name = registerUserDto.name;
     user.email = registerUserDto.email;
     user.password = bcryptAdapter.hash(registerUserDto.password);
-    // user.password = registerUserDto.password; // ésta linea reemplazaría a la anterior si usamo la otra forma de encripatar de lo modelos.
+    // user.password = registerUserDto.password; // ésta linea reemplazaría a la anterior si usamos la otra forma de encripatar de lo modelos.
     user.role = registerUserDto.role;
 
     try {

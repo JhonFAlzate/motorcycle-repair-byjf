@@ -1,3 +1,4 @@
+import { bcryptAdapter } from "../../config";
 import { Users } from "../../data";
 import { CustomError } from "../../domain";
 import { CreateUserDto } from "../../domain/dtos/user/create-user-dto";
@@ -16,7 +17,7 @@ export class UserService {
 
     users.name = userData.name.toLowerCase().trim();
     users.email = userData.email.toLowerCase().trim();
-    users.password = userData.password.trim();
+    users.password = bcryptAdapter.hash(userData.password.trim());
     users.role = userData.role;
     // users.status = Status.ACTIVE;
 
@@ -45,6 +46,14 @@ export class UserService {
         id: id,
         status: Status.ACTIVE,
       },
+      relations: ['repairs'],
+      select: {
+        repairs: {
+          status: true,
+          id: true,
+          description: true,
+        }
+      }
     });
 
     if (!user) {

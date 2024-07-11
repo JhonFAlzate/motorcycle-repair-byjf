@@ -2,6 +2,7 @@ import { json } from "stream/consumers";
 import { Repairs, Users } from "../../data";
 import { CreateRepairDto, CustomError, UpdateRepairDto } from "../../domain";
 import { UserService } from "./user.service";
+// import { protectAccountOwner } from "../../config/validate-owner";
 
 enum Status {
   PENDING = "PENDING",
@@ -14,15 +15,16 @@ export class RepairsService {
 
   async createRepairs(repairData: CreateRepairDto) {
     const repair = new Repairs();
-    
 
-    await this.userService.findUserByD(repairData.userId);
+    const user = await this.userService.findUserByD(repairData.userId);
 
     // if(!validateUser) throw CustomError.internalServer('CLIENTE NO EXISTE')
 
     repair.date = repairData.date;
     repair.status = Status.PENDING;
-    repair.user_id = repairData.userId;
+
+    repair.user = user;
+
     repair.motorsNumber = repairData.motorsNumber;
     repair.description = repairData.description;
 
@@ -71,6 +73,7 @@ export class RepairsService {
         id: id,
         status: Status.PENDING,
       },
+      relations: ['user'],
     });
 
     if (!repair) {
@@ -97,10 +100,13 @@ export class RepairsService {
   async deleteRepair(id: number) {
     const repair = await this.findRepairByd(id);
 
+    // const isOwner = protectAccountOwner(repair.user.id)
+    // console.log(repair)
     repair.status = Status.CANCELLED;
+   
 
     try {
-      await repair.save();
+      return await repair.save();
     } catch (error) {
       throw CustomError.internalServer("Something went very wrong! 🧨☠️");
     }
