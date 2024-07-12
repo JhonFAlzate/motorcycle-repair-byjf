@@ -40,7 +40,7 @@ export class UserRoutes {
         const controller = new UserController(userService)
 
         router.use(AuthMiddleware.protect)  // aquí estoy protegiendo todas las rutas de abajo.
-        router.use(AuthMiddleware.restrictTo(Role.EMPLOYEE))
+        router.use(AuthMiddleware.restrictTo(Role.EMPLOYEE)) // aquí protejo las rutas para que solo los empleados puedan ingresar.
 
         router.get('/', controller.getUser)
         router.post('/', controller.createUser)
