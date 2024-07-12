@@ -68,7 +68,7 @@ export class UserService {
 
     users.name = userData.name.toLowerCase().trim();
     users.email = userData.email.toLowerCase().trim();
-    // users.password = userData.password.toLowerCase().trim()
+    // users.password = userData.password.trim()
     // users.role = userData.role;
     // users.status = userData.status;
 
