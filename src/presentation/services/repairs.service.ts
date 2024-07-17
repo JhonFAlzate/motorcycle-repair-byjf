@@ -2,6 +2,7 @@ import { json } from "stream/consumers";
 import { Repairs, Users } from "../../data";
 import { CreateRepairDto, CustomError, UpdateRepairDto } from "../../domain";
 import { UserService } from "./user.service";
+import { And } from "typeorm";
 // import { protectAccountOwner } from "../../config/validate-owner";
 
 enum Status {
@@ -58,9 +59,15 @@ export class RepairsService {
   async findAllRepairs() {
     try {
       return await Repairs.find({
-        where: {
+        where: [
+          {
           status: Status.PENDING,
+          
         },
+        {
+          status: Status.COMPLETED
+        }
+      ],
         relations: ['user'],
         select: {
           user: {
