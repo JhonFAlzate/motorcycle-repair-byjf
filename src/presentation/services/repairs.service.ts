@@ -61,6 +61,14 @@ export class RepairsService {
         where: {
           status: Status.PENDING,
         },
+        relations: ['user'],
+        select: {
+          user: {
+            id: true,
+            name: true,
+            email: true,
+          }
+        }
       });
     } catch (error: any) {
       throw CustomError.internalServer("Something went very wrong! 🧨☠️");
